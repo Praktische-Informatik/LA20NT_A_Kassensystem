@@ -6,13 +6,11 @@ int Kunde::autowert = 0;
 
 Kunde::Kunde(string name, string vorname)
 {
-	this->autowert++;
-	this->kundennr = this->autowert;
+	this->kundennr = autowert++;
 	this->angemeldet = false;
 	this->einkaufswagen = nullptr;
 	this->name = name;
 	this->vorname = vorname;
-	//cout << "Autowert: " + this->autowert << endl;
 }
 
 Einkaufswagen* Kunde::starteEinkauf()
@@ -25,9 +23,10 @@ Einkaufswagen* Kunde::starteEinkauf()
 double Kunde::beendeEinkauf()
 {
 	this->angemeldet = false;
-	double out = einkaufswagen->berechneEinkaufswert();
+	double ergebnis = einkaufswagen->berechneEinkaufswert();
+	delete einkaufswagen;
 	this->einkaufswagen = nullptr;
-	return out;
+	return ergebnis;
 }
 
 int Kunde::getKundenNr()

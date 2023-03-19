@@ -10,6 +10,7 @@ Einkaufswagen::Einkaufswagen(Kunde* kunde)
 
 void Einkaufswagen::hineinlegen(Produkt* produkt)
 {
+	for(Produkt p : positionenImEinkaufswagen)
 	this->positionenImEinkaufswagen.push_back(new PositionImEinkaufswagen(produkt));
 }
 
