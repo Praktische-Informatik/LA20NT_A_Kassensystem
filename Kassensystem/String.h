@@ -19,6 +19,7 @@ public:
 	String(const String& str);
 	String(const char* str);
 
+	string toC_string() { string t = text; return t; }
 	String operator=(const String& str) { text = str.text; return *this; }
 	friend ostream& operator<<(ostream& os, const String& x);
 	String operator+ (const String& x2) { text += x2.text; return *this; }

@@ -45,7 +45,7 @@ double Einkaufswagen::berechneEinkaufswert()
 {
 	double betrag = 0.0;
 	for (int i = 0; i < pie.size(); i++) {
-		betrag =+ pie.get(i)->getProdukt()->getPreis();
+		betrag = betrag + pie.get(i)->getProdukt()->getPreis() * pie.get(i)->getAnzahl();
 	}
 	return betrag;
 }
