@@ -2,14 +2,14 @@
 class Kunde;
 class PositionImEinkaufswagen;
 class Produkt;
-#include <list>
+#include "List.h"
 using namespace std;
 
 class Einkaufswagen
 {
 private:
 	Kunde* kunde;
-	list<PositionImEinkaufswagen*> positionenImEinkaufswagen;
+	List<PositionImEinkaufswagen*> pie;
 public:
 	Einkaufswagen(Kunde*);
 	void hineinlegen(Produkt*);

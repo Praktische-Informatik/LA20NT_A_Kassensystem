@@ -16,7 +16,9 @@ int main()
 	if (input == '0') {
 
 		EasyBuy* eb = new EasyBuy();
-		eb->registrierenKunde("Peter", "Arbeitsloser");
+		eb->registrierenKunde("Anton", "Anfang");
+		eb->registrierenKunde("Bea", "Beispiel");
+		eb->registrierenKunde("Theo", "Testmann");
 		eb->hinzufuegenProdukt("Chips", 1.00, 100);
 		eb->hinzufuegenProdukt("Spaghetti", 1.50, 100);
 		eb->hinzufuegenProdukt("Banane", 2.50, 10);
@@ -28,10 +30,10 @@ int main()
 	else if(input == '1'){
 		CSocket* c = new CSocket("127.0.0.1", 7070);
 		c->connect();
-		c->write("1"); // Kundennummer
-		c->write("legeInEinkaufswagen;1");
+		c->write("2"); // Kundennummer
+		c->write("legeInEinkaufswagen;101");
 		cout << c->readLine() << endl;
-		c->write("legeInEinkaufswagen;2");
+		c->write("legeInEinkaufswagen;102");
 		cout << c->readLine() << endl;
 		c->write("beenden");
 		cout << c->readLine() << endl;

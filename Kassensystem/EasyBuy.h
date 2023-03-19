@@ -3,14 +3,14 @@
 class Kunde;
 class Produkt;
 #include <string>
-#include <list>
+#include "List.h"
 using namespace std;
 
 
 class EasyBuy {
 private:
-	list<Produkt*> produkte;
-	list<Kunde*> kunden;
+	List<Produkt*> produkte;
+	List<Kunde*> kunden;
 public:
 	EasyBuy();
 	Kunde* registrierenKunde(string, string);

@@ -4,7 +4,7 @@
 #include "Kunde.h"
 #include "Produkt.h"
 #include <string>
-#include <list>
+#include "List.h"
 #include <sstream>   
 #include <vector>
 #include <iostream>
@@ -13,23 +13,28 @@ using namespace std;
 ServerThread::ServerThread(CSocket* cs, EasyBuy* eb)
 {
 	this->eb = eb;
-	this->s = cs;
+	this->clientSocket = cs;
 
 }
 
 void ServerThread::run()
 {
-	string input = s->readLine();
+	// Kunde anmelden
+	string input = clientSocket->readLine();
 	cout << input << endl;
 	int kundennr = stoi(input);
+	cout << "Kundennr: " << kundennr << endl;
 	Kunde* kunde = eb->sucheKunde(kundennr);
-	if (kunde == nullptr) cout << "null" << endl;
-	Einkaufswagen* ew = kunde->starteEinkauf();
-	s->write("+OK Willkommen\n");
 
-	string output = "null";
+	if (kunde == nullptr) cout << "Kunde wurde nicht erstellt!" << endl;
+	
+	Einkaufswagen* ew = kunde->starteEinkauf();
+	clientSocket->write("+OK Willkommen\n");
+
+	// Kommandos
+	string meldung = "";
 	Produkt* p = nullptr;
-	input = s->readLine();
+	input = clientSocket->readLine();
 	
 	while (input != "beenden") {
 
@@ -44,14 +49,12 @@ void ServerThread::run()
 		cout << "Test Kommando " << kommando << endl; 
 		if (kommando == "legeInEinkaufswagen") {
 			int produktnr = stoi(cmd[1]);
-			cout << "Test produktnr " << produktnr << endl;
 			p = eb->sucheProdukt(produktnr);
-			cout << "Test Produkt " << p->getBezeichnung() << endl;
 			
 			ew->hineinlegen(p);
 			int anzahl = ew->getAnzahlInEinkaufswagen(p);
-			output = "+OK;" + p->getBezeichnung() + ";" + to_string(anzahl) + " mal;" + to_string(p->getPreis()*anzahl) + "Euro in Einkaufwagen";
-			cout << "Test output " << output << endl;
+			meldung = "+OK;" + p->getBezeichnung() + ";" + to_string(anzahl) + " mal;" + to_string(p->getPreis()*anzahl) + "Euro in Einkaufwagen";
+			cout << meldung << endl;
 
 		}else if(kommando == "nimmAusEinkaufswagen") {
 
@@ -60,10 +63,10 @@ void ServerThread::run()
 
 		}
 
-		s->write("hallo");
-		input = s->readLine();
+		clientSocket->write("hallo");
+		input = clientSocket->readLine();
 	}
 	double gesamt = kunde->beendeEinkauf();
-	s->write("+OK zu zahlen " + to_string(gesamt) + "Euro");
-	s->close();
+	clientSocket->write("+OK zu zahlen " + to_string(gesamt) + "Euro");
+	clientSocket->close();
 }
