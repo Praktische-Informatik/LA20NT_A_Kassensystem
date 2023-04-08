@@ -4,18 +4,20 @@
 PositionImEinkaufswagen::PositionImEinkaufswagen(Produkt* produkt)
 {
 	this->produkt = produkt;
-	this->anzahl = produkt->getBestand();
+	this->anzahl = 1;
 }
 
 void PositionImEinkaufswagen::erhoeheAnzahl()
 {
-	anzahl++;
+	++anzahl;
+	produkt->reduziereBestand();
 }
 
 void PositionImEinkaufswagen::reduziereAnzahl()
 {
 	if (anzahl > 0) {
-		anzahl--;
+		--anzahl;
+		produkt->erhoeheBestand();
 	}
 }
 

@@ -1,14 +1,13 @@
 #include "Produkt.h"
 
-int Produkt::autowert = 0;
+int Produkt::autowert = 100;
 
 Produkt::Produkt(string bezeichnung, double preis, int bestand)
 {
-	this->autowert++;
 	this->bezeichnung = bezeichnung;
 	this->preis = preis;
 	this->bestand = bestand;
-	this->produktnr = this->autowert;
+	this->produktnr = autowert++;
 }
 
 void Produkt::reduziereBestand()

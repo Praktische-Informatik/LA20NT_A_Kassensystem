@@ -3,67 +3,67 @@
 #include "Einkaufswagen.h"
 #include "Kunde.h"
 #include "Produkt.h"
+#include "String.h"  // String --> Java != string --> c++
 #include <string>
-#include <list>
-#include <sstream>   
-#include <vector>
+#include "List.h"
+//#include <sstream>   
+//#include <vector>
 #include <iostream>
 using namespace std;
 
 ServerThread::ServerThread(CSocket* cs, EasyBuy* eb)
 {
 	this->eb = eb;
-	this->s = cs;
+	this->clientSocket = cs;
 
 }
 
 void ServerThread::run()
 {
-	string input = s->readLine();
-	cout << input << endl;
+	// Kunde anmelden
+	string input = clientSocket->readLine();
 	int kundennr = stoi(input);
+	cout << "Kundennr: " << kundennr << endl;
 	Kunde* kunde = eb->sucheKunde(kundennr);
-	if (kunde == nullptr) cout << "null" << endl;
-	Einkaufswagen* ew = kunde->starteEinkauf();
-	s->write("+OK Willkommen\n");
 
-	string output = "null";
-	Produkt* p = nullptr;
-	input = s->readLine();
+	if (kunde == nullptr) cout << "Kunde wurde nicht erstellt!" << endl;
 	
-	while (input != "beenden") {
+	Einkaufswagen* ew = kunde->starteEinkauf();
+	clientSocket->write("+OK Willkommen\n");
 
-		stringstream test(input);
-		string segment;
-		vector<string> cmd;
-		while (getline(test, segment, ';'))
-		{
-			cmd.push_back(segment);
-		}
-		string kommando = cmd[0];
-		cout << "Test Kommando " << kommando << endl; 
-		if (kommando == "legeInEinkaufswagen") {
-			int produktnr = stoi(cmd[1]);
-			cout << "Test produktnr " << produktnr << endl;
+	// Kommandos
+	string meldung = ""; // cpp String!
+	Produkt* p = nullptr;
+	String line = clientSocket->readLine(); // Java String!
+	
+	while (!line.equals("beenden")) {
+		String* cmd = line.split(";");
+		String kommando = cmd[0];
+
+		if (kommando == "legeInEinkaufswagen") {  
+			cout << "1. Kommando: " << kommando << endl;
+			int produktnr = stoi(cmd[1].toC_string()); 
 			p = eb->sucheProdukt(produktnr);
-			cout << "Test Produkt " << p->getBezeichnung() << endl;
-			
 			ew->hineinlegen(p);
 			int anzahl = ew->getAnzahlInEinkaufswagen(p);
-			output = "+OK;" + p->getBezeichnung() + ";" + to_string(anzahl) + " mal;" + to_string(p->getPreis()*anzahl) + "Euro in Einkaufwagen";
-			cout << "Test output " << output << endl;
+			meldung = "+OK; " + p->getBezeichnung() + "; " + to_string(anzahl) + " mal; " + to_string(p->getPreis()*anzahl) + " Euro in Einkaufwagen";
+			clientSocket->write(meldung);
 
 		}else if(kommando == "nimmAusEinkaufswagen") {
-
+			cout << "2. Kommando: " << kommando << endl;
+			//int produktnr = stoi(cmd[1].toC_string());
+			//p = eb->sucheProdukt(produktnr);
+			//ew->herausnehmen(p);
+			//int anzahl = ew->getAnzahlInEinkaufswagen(p);
+			//meldung = "+OK; " + p->getBezeichnung() + "; " + to_string(anzahl) + " mal; " + to_string(p->getPreis() * anzahl) + " Euro in Einkaufwagen";
 		}
 		else if (kommando == "anzeigeEinkaufswagen") {
-
+			cout << "3. Kommando: " << kommando << endl;
+			clientSocket->write(meldung);
 		}
-
-		s->write("hallo");
-		input = s->readLine();
+		line = clientSocket->readLine();
 	}
 	double gesamt = kunde->beendeEinkauf();
-	s->write("+OK zu zahlen " + to_string(gesamt) + "Euro");
-	s->close();
+	clientSocket->write("+OK zu zahlen " + to_string(gesamt) + " Euro");
+	clientSocket->close();
 }

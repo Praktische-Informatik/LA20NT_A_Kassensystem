@@ -54,6 +54,12 @@
     <ClCompile Include="Kassenautomat.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="List.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="String.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Server.h">
@@ -90,6 +96,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Kassenautomat.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="String.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

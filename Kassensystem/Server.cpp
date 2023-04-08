@@ -5,9 +5,9 @@
 
 Server::Server(int port, EasyBuy* eb)
 {
-	//CServerSocket* serverS = new CServerSocket(port);
 	this->ss = new CServerSocket(port);
 	this->eb = eb;
+	this->runServer();
 
 }
 
@@ -15,8 +15,9 @@ void Server::runServer()
 {
 	while (true) {
 		cout << "Client wird gesucht..." << endl;
-		ServerThread* st = new ServerThread(ss->accept(), eb);
+		CSocket* clientSocket = ss->accept();
+		ServerThread* st = new ServerThread(clientSocket, eb);
 		cout << "Client verbunden" << endl;
-		st->run();
+		st->start();
 	}
 }

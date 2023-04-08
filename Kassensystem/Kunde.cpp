@@ -2,7 +2,7 @@
 #include "Einkaufswagen.h"
 #include <iostream>
 
-int Kunde::autowert = 0;
+int Kunde::autowert = 1;
 
 Kunde::Kunde(string name, string vorname)
 {

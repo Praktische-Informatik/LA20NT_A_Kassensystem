@@ -158,10 +158,12 @@
     <ClCompile Include="Kassenautomat.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Kunde.cpp" />
+    <ClCompile Include="List.cpp" />
     <ClCompile Include="PositionImEinkaufswagen.cpp" />
     <ClCompile Include="Produkt.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerThread.cpp" />
+    <ClCompile Include="String.cpp" />
     <ClCompile Include="Thread.cpp" />
     <ClCompile Include="VIPKunde.cpp" />
   </ItemGroup>
@@ -172,10 +174,12 @@
     <ClInclude Include="Einkaufswagen.h" />
     <ClInclude Include="Kassenautomat.h" />
     <ClInclude Include="Kunde.h" />
+    <ClInclude Include="List.h" />
     <ClInclude Include="PositionImEinkaufswagen.h" />
     <ClInclude Include="Produkt.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="ServerThread.h" />
+    <ClInclude Include="String.h" />
     <ClInclude Include="Thread.h" />
     <ClInclude Include="VIPKunde.h" />
   </ItemGroup>
